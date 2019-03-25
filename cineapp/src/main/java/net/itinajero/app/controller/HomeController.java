@@ -2,11 +2,13 @@ package net.itinajero.app.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -15,6 +17,8 @@ import net.itinajero.app.model.Pelicula;
 @Controller
 public class HomeController {
 
+	private SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+	
 	@RequestMapping(value="/home", method=RequestMethod.GET)
 	public String goHome(){
 		return "home";
@@ -27,19 +31,25 @@ public class HomeController {
 		//peliculas.add("Rapido y furioso");
 		//peliculas.add("Toy Story 6");
 		//peliculas.add("Los Increibles 3");
+		model.addAttribute("fechaBusqueda", dateFormat.format(new Date()));
 		model.addAttribute("peliculas", peliculas);
 		return "home";
 	}
 	
-	@RequestMapping(value="/detail")
-	public String mostrarDetalle(Model model) {
-		String tituloPelicula = "Rapidos y Furiosos 2";
-		int duracion = 120;
-		double precio = 50;
+	@RequestMapping(value="/detail/{id}/{fecha}", method=RequestMethod.GET)
+	public String mostrarDetalle(Model model,@PathVariable("id") int idPelicula,@PathVariable("fecha") String fecha) {
 		
-		model.addAttribute("titulo", tituloPelicula);
-		model.addAttribute("duracion", duracion);
-		model.addAttribute("precio", precio);
+		System.out.println("Buscando horarios para la pelicula " + idPelicula);
+		System.out.println("Para la fecha " + fecha);
+		
+		//TO DO - BUSCAR EN LA BASE DE DATOS LOS HORARIOS
+		/*
+		 * String tituloPelicula = "Rapidos y Furiosos 2"; int duracion = 120; double
+		 * precio = 50;
+		 * 
+		 * model.addAttribute("titulo", tituloPelicula); model.addAttribute("duracion",
+		 * duracion); model.addAttribute("precio", precio);
+		 */
 		return "detalle";
 	}
 	
