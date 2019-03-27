@@ -27,8 +27,15 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/search", method=RequestMethod.POST)
-	public String buscar(@RequestParam("fecha") String fecha) {
-		System.out.println("Buscando todas las peliculas en exibicion para la fecha " + fecha );
+	public String buscar(@RequestParam("fecha") String fecha, Model model) {
+		
+		List<String> listaFechas = Utileria.getNextDays(4);
+		List<Pelicula> peliculas = getLista();
+		model.addAttribute("fechas", listaFechas);
+		model.addAttribute("fechaBusqueda", fecha);
+		model.addAttribute("peliculas", peliculas);
+		
+		System.out.println("Buscando todas las peliculas en exibicion para la fecha " + fecha);
 		return "home";
 	}
 	
@@ -36,8 +43,6 @@ public class HomeController {
 	public String mostrarPrincipal(Model model){
 		
 		List<String> listaFechas = Utileria.getNextDays(4);
-		
-		
 		List<Pelicula> peliculas = getLista();
 		//peliculas.add("Rapido y furioso");
 		//peliculas.add("Toy Story 6");
