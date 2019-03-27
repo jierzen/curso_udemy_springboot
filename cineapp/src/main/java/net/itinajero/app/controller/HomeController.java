@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import net.itinajero.app.model.Pelicula;
+import net.itinajero.app.util.Utileria;
 
 @Controller
 public class HomeController {
@@ -28,10 +29,14 @@ public class HomeController {
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public String mostrarPrincipal(Model model){
 		
+		List<String> listaFechas = Utileria.getNextDays(4);
+		
+		
 		List<Pelicula> peliculas = getLista();
 		//peliculas.add("Rapido y furioso");
 		//peliculas.add("Toy Story 6");
 		//peliculas.add("Los Increibles 3");
+		model.addAttribute("fechas", listaFechas);
 		model.addAttribute("fechaBusqueda", dateFormat.format(new Date()));
 		model.addAttribute("peliculas", peliculas);
 		return "home";
